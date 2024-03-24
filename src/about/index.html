@@ -1,2 +1,208 @@
-About
-<img src="/logo.png" height="350px"/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Fugaz+One&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Fugaz+One&family=Luckiest+Guy&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Fugaz+One&family=Luckiest+Guy&family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+
+
+ <title>Tic Tac Toe</title>
+ 
+ <style>
+  body {
+  font-family:Arial, Helvetica, sans-seif;
+  background-color: rgb(126, 123, 87);
+  }
+ 
+ 
+  .board {
+  background-color: #5E3023;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  max-width: 350px;
+  padding: 15px;
+  margin: 0 auto;
+  margin-top: 3%;
+  }
+ 
+ 
+ 
+  .tile {
+  width: 100px;
+  height: 100px;
+  border: 5px solid #5E3023;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100px;
+  color: #F3E9DC;
+  text-shadow: 2px 2px 5px #5E3023;
+  cursor: pointer;
+  background-color: #DAB49D;
+  }
+ 
+  .message {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  }
+ 
+  .button-re {
+  padding: 15px;
+  border: 2px solid #5E3023;
+  border-radius: 30px ;
+  background-color: beige;
+  color: #5E3023;
+  font-size: 20px;
+  font-family: "Rowdies", sans-serif;
+  cursor: pointer;
+  }
+ 
+  .button-re:hover {
+  background-color: #B08968;
+  color: #F3E9DC;
+  transition: 1s;
+  }
+ 
+  .button-re:active {
+  background-color: cadetblue;
+  transition: 1s;
+  }
+ 
+  .text {
+  text-align: center;
+  color: #7F5539;
+  font-family: 'Merriweather' 'Franklin Gothic Medium', 'sans-serif';
+  }
+ 
+  .title{
+    text-align: center;
+    color: #5E3023;
+    font-family: "Luckiest Guy", cursive;
+    font-size: 70px;
+    margin-top: 100px;
+  }
+
+
+ 
+  .name {
+    font-family: "Fugaz One", sans-serif;
+    font-size: 20px;
+    margin-top: -20px;
+    color: #492f27;
+  }
+  
+
+
+  </style>
+  </head>
+  <body>
+  <center>
+    <div class="title">TIC TAC TOE</div>
+   <div class="name">iCoders</div>
+ 
+   <div class="board">
+     <div class="tile" onclick="Move(this)"></div>
+     <div class="tile" onclick="Move(this)"></div>
+     <div class="tile" onclick="Move(this)"></div>
+     <div class="tile" onclick="Move(this)"></div>
+     <div class="tile" onclick="Move(this)"></div>
+     <div class="tile" onclick="Move(this)"></div>
+     <div class="tile" onclick="Move(this)"></div>
+     <div class="tile" onclick="Move(this)"></div>
+     <div class="tile" onclick="Move(this)"></div>
+   </div>
+   
+    <div class="message" id="message"></div>
+    <center>
+   
+    <button class="button-re" onclick="restartGame()">Restart</button>
+    <script>
+    let Player = 'X';
+    let board = ['','','','','','','','',''];
+    let gameOver = false;
+   const game = {
+   stat1: "YOU WIN!",
+   stat2: "YOU LOSE!",
+   stat3: "IT'S A TIE!"
+   };
+    function Move(cell) {
+    const index = Array.from(cell.parentNode.children).indexOf(cell);
+    if(!cell.textContent && !gameOver) {
+    cell.textContent = Player;
+    board[index] = Player;
+    if(Winner()) {
+    document.getElementById('message').textContent = game.stat1;
+    gameOver = true;
+    } else {
+    Player = (Player === 'X') ? 'O' : 'X';
+    if (Player === 'O') {
+    setTimeout(Bot, 500);
+    }
+   }
+   if (!board.includes('') && !Winner()) {
+            document.getElementById('message').textContent = game.stat2;
+            gameOver = true;
+   
+        }
+  }
+ }
+ 
+ function Bot() {
+ const emptybox = board.map((val, index) => (val === '') ? index : -1).filter(index => index !== -1);
+ if(emptybox.length > 0) {
+  const randomIndex = Math.floor(Math.random() * emptybox.length);
+  const botCell = document.querySelector(`.tile:nth-child(${emptybox[randomIndex] + 1})`);
+  botCell.textContent = Player;
+  board[emptybox[randomIndex]] = Player;
+  if(Winner()) {
+   document.getElementById('message').textContent = game.stat2;
+   gameOver = true;
+   } else {
+    Player = 'X';
+    }
+   }
+  }
+  function Winner() {
+  const winningPatterns = [
+  [0, 1, 2], [3, 4, 5], [6, 7, 8], // for rows
+  [0, 3, 6], [1, 4, 7], [2, 5, 8], // for columns
+  [0, 4, 8], [2, 4, 6] // diagonal
+];
+for (const pattern of winningPatterns) {
+const [a, b, c] = pattern;
+if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+return true;
+}
+}
+
+
+if (board.every(cell => cell !== '')) {
+ document.getElementById('message').textContent = game.stat3;
+ return true;
+}
+ return false;
+}
+  function restartGame() {
+   board = ['', '', '', '', '', '', '', '', ''];
+   Player = 'X';
+   gameOver = false;
+   document.querySelectorAll('.tile').forEach(cell => cell.textContent = '');
+   document.getElementById('message').textContent = '';
+   }
+   </script>
+   </body>
+   </html>
+
+
+
