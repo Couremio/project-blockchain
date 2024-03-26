@@ -2,7 +2,7 @@
     "canisters": {
         "icoders": {
             "frontend": {
-                "entrypoint": "src/index.html"
+                "entrypoint": "src/about/index.html"
             },
             "source": ["src"],
             "type": "assets"
